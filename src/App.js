@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [input, setInput] = useState('');
+
+  const handleClick = (value) => {
+    setInput(input + value);
+  };
+
+  const calculate = () => {
+    try {
+      // eslint-disable-next-line
+const result = eval(input.replace(',', '.'));
+setInput(result.toLocaleString('es-ES'));
+    } catch {
+      setInput('Error');
+    }
+  };
+
+  const clear = () => {
+    setInput('');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello World!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React with me
-        </a>
-      </header>
+      <div className="calculator">
+        <h1 className="logo">CALCULATOR</h1>
+        <input type="text" value={input} readOnly />
+        <div className="buttons">
+          {'123+456-789*0./'.split('').map((char) => (
+            <button key={char} onClick={() => handleClick(char)}>{char}</button>
+          ))}
+          <button onClick={calculate}>=</button>
+          <button onClick={clear}>C</button>
+        </div>
+      </div>
     </div>
   );
 }
